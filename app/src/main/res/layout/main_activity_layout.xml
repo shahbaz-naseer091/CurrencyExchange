@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.currencyexchangeapp.ui.viewModel.CurrencyViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:padding="20dp">
+
+
+        <EditText
+            android:id="@+id/editTextAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter amount"
+            android:inputType="number"
+            android:text="@={viewModel.desiredAmount}" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/editTextAmount"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.clear()}"
+                android:text="Clear"
+                android:textAllCaps="false"
+                android:visibility="@{viewModel.isListVisible ? View.VISIBLE : View.INVISIBLE, default=invisible}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/spinnerCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/currencies_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout_1"
+            android:layout_marginTop="10dp"
+            android:adapter="@{viewModel.gridAdapter}"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.isListVisible ? View.VISIBLE : View.GONE, default=gone}"
+            tools:listitem="@layout/grid_item_layout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:onClick="@{() -> viewModel.updateConversion()}"
+            android:text="Convert"
+            android:textAllCaps="false"
+            android:visibility="@{viewModel.isListVisible ? View.GONE : View.VISIBLE, default=visible}" />
+
+    </RelativeLayout>
+
+</layout>
